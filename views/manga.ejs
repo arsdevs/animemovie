@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src='//whephiwums.com/sdk.js' data-zone='9278507' data-sdk='show_9278507'></script>
+  <title>Manga List</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background-color: #1e1e2f;
+      color: #ffffff;
+      font-family: 'Press Start 2P', cursive;
+      padding: 20px;
+      margin: 0;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 20px;
+      margin-bottom: 40px;
+      text-shadow: 2px 2px #000;
+    }
+
+    .manga-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 25px;
+      justify-content: center;
+    }
+
+    .manga-item {
+      background: #2c2c3e;
+      border: 4px solid #ffffff;
+      box-shadow: 4px 4px #000;
+      width: 200px;
+      padding: 10px;
+      transition: transform 0.2s ease-in-out;
+    }
+
+    .manga-item:hover {
+      transform: scale(1.05);
+      box-shadow: 6px 6px #000;
+    }
+
+    img {
+      width: 100%;
+      height: auto;
+      border: 2px solid #fff;
+      image-rendering: pixelated;
+    }
+
+    h3 {
+      font-size: 10px;
+      color: #00ffcc;
+      margin-top: 10px;
+      text-align: center;
+      text-shadow: 1px 1px #000;
+    }
+
+    a {
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>🕹️ Manga List 🕹️</h1>
+  <div class="manga-grid">
+    <% mangaList.forEach(manga => { %>
+      <div class="manga-item">
+        <a href="<%= manga.url %>" target="_blank">
+          <img src="<%= manga.images.jpg.image_url %>" alt="<%= manga.title %>">
+          <h3><%= manga.title %></h3>
+        </a>
+      </div>
+    <% }) %>
+  </div>
+
+  <script>
+    const FIRST_AD_DELAY =5*60 * 1000; // 5 minutes
+    const AD_INTERVAL = 30 * 60 * 1000;   // 30 minutes
+  
+    function showAd() {
+      console.log('Showing ad at', new Date().toLocaleTimeString());
+      show_9278507({ 
+        type: 'inApp', 
+        inAppSettings: { 
+          frequency: 2,
+          capping: 0.1,
+          interval: 30,
+          timeout: 5,
+          everyPage: false
+        }
+      });
+    }
+  
+    // First ad after 5 minutes
+    setTimeout(() => {
+      showAd();
+  
+      // Then repeat every 30 minutes
+      setInterval(showAd, AD_INTERVAL);
+    }, FIRST_AD_DELAY);
+  </script>
+  
+</body>
+</html>
+

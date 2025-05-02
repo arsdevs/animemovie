@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src='//whephiwums.com/sdk.js' data-zone='9278507' data-sdk='show_9278507'></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Latest Anime</title>
+  <style>
+    /* Font and root setup */
+    @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+  
+    :root {
+      --bg: #1f1f2e;
+      --bg-alt: #2a2a3d;
+      --text: #f8f8f8;
+      --accent: #f8f8f8;
+      --shadow: rgba(0, 0, 0, 0.6);
+      --radius: 8px;
+      --font-main: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      --font-pixel: 'Press Start 2P', cursive;
+    }
+  
+    body {
+      font-family: var(--font-pixel);
+      background-color: var(--bg);
+      color: var(--text);
+      margin: 0;
+      padding: 20px;
+      box-sizing: border-box;
+      text-align: center;
+      overflow-x: hidden;
+    }
+  
+    h1 {
+      font-family: var(--font-main);
+      font-size: 36px;
+      color: var(--accent);
+      margin-bottom: 40px;
+      text-shadow: 2px 2px 8px #000;
+      letter-spacing: 2px;
+    }
+  
+    p {
+      font-family: var(--font-main);
+      font-size: 14px;
+      color: #ccc;
+    }
+  
+    /* Navigation */
+    .nav {
+      margin: 30px 0;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+  
+    .nav-link {
+      color: var(--text);
+      text-decoration: none;
+      font-size: 14px;
+      padding: 10px 15px;
+      border: 2px solid var(--text);
+      border-radius: var(--radius);
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+  
+    .nav-link:hover,
+    .nav-link.active {
+      background-color: var(--text);
+      color: var(--bg);
+      font-weight: bold;
+    }
+
+    @media (max-width:768px){
+      .nav-link{
+        font-size: 9px;
+      }
+    }
+  
+    /* Form */
+    form {
+      margin: 20px auto;
+      border: 2px solid var(--text);
+      padding: 20px;
+      background-color: var(--bg-alt);
+      display: inline-block;
+      border-radius: var(--radius);
+    }
+  
+    input[type="text"] {
+      padding: 12px;
+      font-size: 16px;
+      width: 300px;
+      background-color: #444;
+      color: var(--text);
+      border: none;
+      outline: none;
+      border-radius: 4px;
+    }
+  
+    button {
+      padding: 12px 25px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      background-color: var(--accent);
+      color: var(--bg);
+      border: none;
+      border-radius: 4px;
+      transition: background-color 0.3s ease;
+    }
+  
+    button:hover {
+      background-color: #e6b800;
+    }
+    @media (max-width: 768px) {
+  form {
+    padding: 10px;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.25rem;
+    max-width:  80%;              /* Ensure form takes full width */
+  }
+
+  input[type="text"] {
+    font-size: 11px;
+    max-width: 14rem;             /* Prevent overflow from flex item */
+  }
+
+  button {
+    font-size: 11px;
+    flex-shrink: 0;           /* Keep button from shrinking */
+    white-space: nowrap;      /* Prevent text wrapping in button */
+  }
+}
+
+
+  
+    /* Anime list (Latest Anime) */
+    .anime-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.anime-item {
+  flex: 1 1 calc(20% - 30px); /* Default: 5 per row */
+  height: 300px;
+  margin: 15px;
+  background-color: var(--bg-alt);
+  padding: 15px;
+  border: 2px solid var(--text);
+  border-radius: var(--radius);
+  box-shadow: 0 4px 10px var(--shadow);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* 1024px and down: 4 per row */
+@media (max-width: 1024px) {
+  .anime-item {
+    flex: 1 1 calc(25% - 30px);
+  }
+}
+
+/* 768px and down: 3 per row */
+@media (max-width: 768px) {
+  .anime-item {
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 80% !important;
+    max-width: 60%;
+    height: 320px !important;
+    margin-bottom: 15px;
+  }
+
+  .anime-item img {
+    width: 90% !important;
+    margin-top: 8px;
+  }
+}
+
+
+/* 600px and down: 2 per row */
+@media (max-width: 600px) {
+  .anime-item {
+    flex: 1 1 calc(50% - 30px);
+    height: 500px;
+  }
+}
+
+/* 400px and down: 1 per row */
+@media (max-width: 400px) {
+  .anime-item {
+    flex: 1 1 100%;
+    height: 500px;
+  }
+}
+
+  
+    .anime-item:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.7);
+    }
+  
+    .anime-item img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border: 3px solid var(--text);
+      border-radius: 6px;
+      margin-bottom: 15px;
+    }
+  
+    .anime-item h3 {
+      font-size: 14px;
+      font-family: var(--font-main);
+      margin: 5px 0;
+      text-transform: uppercase;
+      font-weight: bold;
+    }
+  
+    .direct {
+      text-decoration: none;
+      color: var(--text);
+    }
+  
+    .pagination {
+      margin-top: 2rem;
+    }
+  @media (max-width:768px){
+    .pagination a,span{
+      font-size: 0.8rem;
+    }
+  }
+    /* Top Anime Grid */
+    .top-anime-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* exactly 4 columns */
+  gap: 30px;
+  padding: 0 20px;
+}
+
+.anime-card {
+  background-color: var(--bg-alt);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px var(--shadow);
+  transition: transform 0.2s ease;
+}
+@media (max-width: 1024px) {
+  .top-anime-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .top-anime-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+  
+    .anime-card:hover {
+      transform: scale(1.03);
+    }
+  
+    .anime-card img {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+    }
+  
+    .anime-info {
+      padding: 15px;
+    }
+  
+    .anime-title {
+      font-size: 18px;
+      font-weight: bold;
+      color: var(--accent);
+      margin: 10px 0;
+    }
+  
+    .anime-details {
+      font-size: 14px;
+      display: flex;
+      text-align: start;
+    }
+  
+    .anime-link a {
+      display: inline-block;
+      padding: 8px 12px;
+      background-color: var(--accent);
+      color: var(--bg);
+      text-decoration: none;
+      font-weight: bold;
+      border-radius: 6px;
+      transition: background 0.2s ease;
+    }
+  
+    .anime-link a:hover {
+      background-color: #e6b800;
+    }
+  
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .anime-item {
+        width: calc(33.333% - 20px);
+        height: 250px;
+      }
+      .anime-title{
+        font-size: 11px;
+        margin-bottom: 1rem;
+      }
+
+      .anime-details{
+        font-size: 11px;
+      }
+  
+      input[type="text"] {
+        width: 80%;
+      }
+      .top-anime-grid{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 2rem;
+      }
+
+      .anime-card{
+    max-width: 80%;
+    /* height: 320px !important; */
+    margin-bottom: 15px;
+      }
+    }
+  
+    /* @media (max-width: 480px) {
+      .anime-item {
+        width: calc(50% - 15px);
+        height: 220px;
+      }
+  
+      input[type="text"] {
+        width: 100%;
+      }
+    } */
+
+    /* Recommendation Section */
+.recommendation-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+  padding: 40px 20px;
+}
+
+.recommendation-card {
+  background-color: var(--bg-alt);
+  border: 2px solid var(--text);
+  border-radius: var(--radius);
+  box-shadow: 0 4px 12px var(--shadow);
+  padding: 20px;
+  text-align: left;
+  font-family: var(--font-main);
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.recommendation-card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7);
+}
+
+.anime-entry {
+  margin-bottom: 15px;
+}
+
+.anime-entry img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 3px solid var(--text);
+  margin-bottom: 10px;
+}
+
+.anime-entry h3 {
+  font-size: 16px;
+  font-weight: bold;
+  color: var(--accent);
+  margin: 0 0 8px;
+  text-transform: uppercase;
+}
+
+.anime-entry p {
+  font-size: 13px;
+  color: #ccc;
+  font-family: var(--font-main);
+  margin: 0;
+}
+
+.recommendation-card small {
+  display: block;
+  margin-top: 10px;
+  font-size: 12px;
+  color: #aaa;
+  font-family: var(--font-main);
+}
+
+.recommendation-card a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.recommendation-card a:hover {
+  text-decoration: underline;
+}
+
+  </style>
+  <style>
+    .modal {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0,0,0,0.5);
+      z-index: 1000;
+    }
+    
+    .modal-content {
+      background: white;
+      margin: 15% auto;
+      padding: 20px;
+      width: 300px;
+      text-align: center;
+      border-radius: 8px;
+    }
+    
+    .menu-button {
+      position: fixed;
+      top: 20px; right: 20px;
+      padding: 10px 20px;
+      z-index: 1001;
+    }
+    
+    .close {
+      float: right;
+      font-size: 20px;
+      cursor: pointer;
+    }
+    </style>
+    
+
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+<body>
+
+
+
+  <!-- Navigation Menu -->
+  <div class="nav">
+    <a href="/" class="nav-link <%= pageType === 'anime' ? 'active' : '' %>">Anime</a>
+    <a href="/top-anime" class="nav-link <%= pageType === 'top-anime' ? 'active' : '' %>">Top</a>
+    <a href="/recommendations" class="nav-link <%= pageType === 'recommendation' ? 'active' : '' %>">Recommendation</a>
+  </div>
+  
+  <% if (pageType === 'anime' && typeof animes !== 'undefined') { %>
+    <!-- Search form -->
+    <form action="/search" method="GET">
+      <input type="text" name="animeName" placeholder="Enter anime name" required>
+      <button type="submit">Search</button>
+    </form>
+    <div class="anime-list">
+      <% animes.forEach(function(anime,index){ %>
+        <div class="anime-item">
+          <a class="direct" href="/anime/<%= anime.mal_id %>">
+            <img src="<%= anime.images.jpg.image_url %>" alt="<%= anime.title %> Poster">
+          </a>
+          <h3><%= anime.title_english || anime.title %></h3>
+          <p>Released: <%= anime.aired.from ? anime.aired.from.split('T')[0] : 'Unknown' %></p>
+        </div>
+      <% }) %>
+
+      
+    </div>
+
+    <div class="pagination">
+      <% if (page > 1) { %>
+        <a href="/?page=<%= page - 1 %>">&laquo; Previous</a>
+      <% } %>
+      
+      <span>Page <%= page %></span>
+      
+      <a href="/?page=<%= page + 1 %>">Next &raquo;</a>
+    </div>
+  <% } else if (pageType === 'top-anime') { %>
+    <div class="top-anime-grid">
+      <% animes.forEach(anime => { %>
+        <div class="anime-card">
+          <a class="direct" href="/anime/<%= anime.mal_id %>">
+            <img src="<%= anime.images.jpg.large_image_url || anime.images.jpg.image_url %>" alt="<%= anime.title %>">
+          </a>
+          <div class="anime-info">
+            <div class="anime-title"><%= anime.title_english || anime.title %></div>
+            <div class="anime-details">
+              ⭐ Score: <%= anime.score %><br> <br>
+              📊 Rank: <%= anime.rank %><br> <br>
+              🎬 Type: <%= anime.type %><br> <br>
+              🧩 Episodes: <%= anime.episodes %>
+            </div>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  <% } %> 
+
+  <% if (pageType === 'recommendation' && typeof recommendations !== 'undefined') { %>
+    <h1>Anime Recommendations</h1>
+  
+    <div class="recommendation-list">
+      <% recommendations.forEach(rec => { %>
+        <div class="recommendation-card">
+          <% rec.entry.forEach(entry => { %>
+            <div class="anime-entry">
+              <!-- <a href="<%= entry.url %>" target="_blank"> -->
+                <img src="<%= entry.images.jpg.image_url %>" alt="<%= entry.title %>" width="150">
+              <!-- </a> -->
+              <h3><%= entry.title %></h3>
+              <p><%= rec.content %></p>
+            </div>
+          <% }) %>
+          <small>
+            Recommended by: <a href="<%= rec.user.url %>" target="_blank"><%= rec.user.username %></a>
+          </small>
+        </div>
+      <% }) %>
+    </div>
+
+    
+  <% } %>
+  
+
+
+<!-- Modal Trigger Button -->
+<!-- <button onclick="openModal()" class="menu-button">Open Menu</button>
+
+<!-- Modal Structure -->
+<!-- <div id="menuModal" class="modal" style="display: none;">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <h2>Select Content</h2>
+    <button onclick="navigateTo('anime')">Anime</button>
+    <button onclick="navigateTo('manga')">Manga</button>
+  </div>
+</div> --> -->
+<!-- <script>
+  function openModal() {
+    document.getElementById("menuModal").style.display = "block";
+  }
+
+  function closeModal() {
+    document.getElementById("menuModal").style.display = "none";
+  }
+
+  function navigateTo(type) {
+    if (type === 'anime') {
+      window.location.href = '/';       // or '/anime' if that's your route
+    } else if (type === 'manga') {
+      window.location.href = '/manga';
+    }
+  }
+</script> -->
+<script>
+  const FIRST_AD_DELAY =5*60 * 1000; // 5 minutes
+  const AD_INTERVAL = 30 * 60 * 1000;   // 30 minutes
+
+  function showAd() {
+    console.log('Showing ad at', new Date().toLocaleTimeString());
+    show_9278507({ 
+      type: 'inApp', 
+      inAppSettings: { 
+        frequency: 2,
+        capping: 0.1,
+        interval: 30,
+        timeout: 5,
+        everyPage: false
+      }
+    });
+  }
+
+  // First ad after 5 minutes
+  setTimeout(() => {
+    showAd();
+
+    // Then repeat every 30 minutes
+    setInterval(showAd, AD_INTERVAL);
+  }, FIRST_AD_DELAY);
+</script>
+
+
+</body>
+</html>

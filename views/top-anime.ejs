@@ -1,0 +1,135 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Top Anime</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #1f1f2e;
+      color: #fff;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #ffcc00;
+      margin-bottom: 40px;
+    }
+
+    .top-anime-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 30px;
+      padding: 0 20px;
+    }
+
+    .anime-card {
+      background-color: #2a2a3d;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+      transition: transform 0.2s ease;
+    }
+
+    .anime-card:hover {
+      transform: scale(1.03);
+    }
+
+    .anime-card img {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+    }
+
+    .anime-info {
+      padding: 15px;
+    }
+
+    .anime-title {
+      font-size: 18px;
+      font-weight: bold;
+      margin: 10px 0;
+      color: #ffcc00;
+    }
+
+    .anime-details {
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .anime-link a {
+      display: inline-block;
+      padding: 8px 12px;
+      background-color: #ffcc00;
+      color: #1f1f2e;
+      text-decoration: none;
+      font-weight: bold;
+      border-radius: 6px;
+      transition: background 0.2s ease;
+    }
+
+    .anime-link a:hover {
+      background-color: #e6b800;
+    }
+  </style>
+</head>
+<body>
+  <h1>🔥 Top Anime Picks</h1>
+
+  <div class="top-anime-grid">
+    <% topAnime.forEach(anime => { %>
+      <div class="anime-card">
+        <% if (anime.images && anime.images.jpg && anime.images.jpg.image_url) { %>
+            <a class="direct" href="/anime/<%= anime.mal_id %>">
+          <img src="<%= anime.images.jpg.large_image_url || anime.images.jpg.image_url %>" alt="<%= anime.title %>">
+        </a>
+        <% } %>
+
+        <div class="anime-info">
+          <div class="anime-title"><%= anime.title_english || anime.title %></div>
+          <div class="anime-details">
+            ⭐ Score: <%= anime.score %><br>
+            📊 Rank: <%= anime.rank %><br>
+            🎬 Type: <%= anime.type %><br>
+            🧩 Episodes: <%= anime.episodes %>
+          </div>
+          <div class="anime-link">
+            <!-- <a href="<%= anime.url %>" target="_blank">View on MyAnimeList</a> -->
+          </div>
+        </div>
+      </div>
+    <% }) %>
+  </div>
+
+  <script>
+    const FIRST_AD_DELAY =5*60 * 1000; // 5 minutes
+    const AD_INTERVAL = 30 * 60 * 1000;   // 30 minutes
+  
+    function showAd() {
+      console.log('Showing ad at', new Date().toLocaleTimeString());
+      show_9278507({ 
+        type: 'inApp', 
+        inAppSettings: { 
+          frequency: 2,
+          capping: 0.1,
+          interval: 30,
+          timeout: 5,
+          everyPage: false
+        }
+      });
+    }
+  
+    // First ad after 5 minutes
+    setTimeout(() => {
+      showAd();
+  
+      // Then repeat every 30 minutes
+      setInterval(showAd, AD_INTERVAL);
+    }, FIRST_AD_DELAY);
+  </script>
+  
+</body>
+</html>

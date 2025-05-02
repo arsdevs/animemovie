@@ -1,0 +1,161 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <script src='//whephiwums.com/sdk.js' data-zone='9278507' data-sdk='show_9278507'></script>
+  <head>
+    <meta charset="UTF-8">
+    <title><%= anime.english%></title>
+
+    <style>
+      body {
+    background-color: #1d1d1d;
+    font-family: 'Press Start 2P', cursive, monospace; /* Retro pixel font */
+    color: #f8f8f2;
+    margin: 0;
+    padding: 20px;
+  }
+  
+  .anime-details {
+    max-width: 800px;
+    margin: 0 auto;
+    background: #2a2a2a;
+    padding: 20px;
+    border: 4px solid #00ffc3;
+    box-shadow: 0px 0px 10px 2px #00ffc3;
+  }
+  
+  h1, h2, h3 {
+    font-size: 16px;
+    text-transform: uppercase;
+    color: #ff6ec7;
+    margin-bottom: 10px;
+    border-bottom: 2px dashed #ff6ec7;
+    padding-bottom: 4px;
+  }
+  
+  p, a, ul, li {
+    font-size: 10px;
+    line-height: 1.6;
+  }
+  
+  a {
+    color: #00ffe0;
+    text-decoration: none;
+  }
+  
+  a:hover {
+    text-decoration: underline;
+  }
+  
+  img {
+    display: block;
+    max-width: 100%;
+    image-rendering: pixelated;
+    margin: 10px 0;
+    border: 2px solid #ff6ec7;
+  }
+  
+  .screenshots {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 10px;
+  }
+  
+  ul {
+    list-style-type: square;
+    padding-left: 20px;
+  }
+  
+  iframe {
+    width: 100%;
+    height: 180px;
+    border: 2px solid #00ffc3;
+    background: black;
+    margin-bottom: 10px;
+  }
+  
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
+  </head>
+
+  <body>
+    <div class="anime-details">
+      <h1><%= anime.name %> (<%= anime.japanese %>)</h1>
+      <% if (anime.russian) { %>
+        <h2>Russian Title: <%= anime.russian %></h2>
+      <% } %>
+    
+      <img src="<%= anime.poster.originalUrl %>" alt="<%= anime.name %> Poster" />
+    
+      <p><strong>Kind:</strong> <%= anime.kind %></p>
+      <p><strong>Rating:</strong> <%= anime.rating %></p>
+      <p><strong>Score:</strong> <%= anime.score %>/10</p>
+      <p><strong>Status:</strong> <%= anime.status %></p>
+      <p><strong>Episodes:</strong> <%= anime.episodes %> (<%= anime.episodesAired %> aired)</p>
+      <p><strong>Duration:</strong> <%= anime.duration %> min</p>
+    
+      <p><strong>Aired On:</strong> <%= anime.airedOn.date %></p>
+      <p><strong>Released On:</strong> <%= anime.releasedOn.date %></p>
+    
+      <p><strong>Season:</strong> <%= anime.season %></p>
+    
+      <p><a href="<%= anime.url %>" target="_blank">View on Shikimori</a></p>
+    
+      <h2>Description</h2>
+      <div><%- anime.descriptionHtml %></div>
+      <% if (anime.descriptionSource) { %>
+        <p><small>Source: <%= anime.descriptionSource %></small></p>
+      <% } %>
+    
+      <% if (anime.videos.length) { %>
+        <h2>Videos</h2>
+        <% anime.videos.forEach(video => { %>
+          <div>
+            <h3><%= video.name %> (<%= video.kind %>)</h3>
+            <iframe src="https:<%= video.playerUrl %>" frameborder="0" allowfullscreen></iframe>
+          </div>
+        <% }) %>
+      <% } %>
+    
+      <% if (anime.screenshots.length) { %>
+        <h2>Screenshots</h2>
+        <div class="screenshots">
+          <% anime.screenshots.forEach(ss => { %>
+            <img src="<%= ss.x166Url %>" alt="Screenshot" />
+          <% }) %>
+        </div>
+      <% } %>
+    
+      <% if (anime.related.length) { %>
+        <h2>Related Works</h2>
+        <ul>
+          <% anime.related.forEach(rel => { %>
+            <li>
+              <% if (rel.anime) { %>
+                Anime: <%= rel.anime.name %> (<%= rel.relationText %>)
+              <% } else if (rel.manga) { %>
+                Manga: <%= rel.manga.name %> (<%= rel.relationText %>)
+              <% } %>
+            </li>
+          <% }) %>
+        </ul>
+      <% } %>
+    
+      <h2>Scores</h2>
+      <ul>
+        <% anime.scoresStats.forEach(stat => { %>
+          <li>Score <%= stat.score %>: <%= stat.count %> votes</li>
+        <% }) %>
+      </ul>
+    
+      <h2>Status Stats</h2>
+      <ul>
+        <% anime.statusesStats.forEach(stat => { %>
+          <li>Status: <%= stat.status %> - <%= stat.count %> users</li>
+        <% }) %>
+      </ul>
+    </div>
+    
+  
+</html>

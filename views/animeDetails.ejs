@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src='//whephiwums.com/sdk.js' data-zone='9278507' data-sdk='show_9278507'></script>
+  <meta charset="UTF-8">
+  <title><%= anime.title_english || anime.title %> - Details</title>
+  <style>
+    /* (Same styling as your original) */
+    body {
+      background-color: #0f0f0f;
+      font-family: 'Press Start 2P', cursive, monospace;
+      color: #e0e0e0;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .anime-details {
+      max-width: 1000px;
+      margin: 0 auto;
+      background: #1a1a1a;
+      padding: 30px;
+      border: 4px solid #00ffc3;
+      /* box-shadow: 0 0 20px 5px #00ffc3; */
+      border-radius: 12px;
+    }
+
+    h1, h2, h3 {
+      font-size: 12px;
+      text-transform: uppercase;
+      color: #ff6ec7;
+      margin-bottom: 12px;
+      border-bottom: 2px dashed #ff6ec7;
+      padding-bottom: 6px;
+    }
+    h2{
+      margin-top: 2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    p, a, ul, li {
+      font-size: 12px;
+      line-height: 1.8;
+    }
+
+    a {
+      color: #00ffe0;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    a:hover {
+      text-decoration: underline;
+      color: #ff6ec7;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+      margin: 15px 0;
+      border: 2px solid #ff6ec7;
+      border-radius: 8px;
+      image-rendering: pixelated;
+    }
+
+    .screenshots {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    ul {
+      list-style-type: square;
+      padding-left: 25px;
+    }
+
+    iframe {
+      width: 100%;
+      height: 220px;
+      border: 2px solid #00ffc3;
+      margin-top: 2rem;
+      background: black;
+      border-radius: 8px;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    iframe:hover {
+      transform: scale(1.02);
+      box-shadow: 0 0 12px #00ffc3;
+    }
+
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      margin-top: 15px;
+    }
+
+    .airing-label {
+  background-color: #1abc9c;
+  color: white;
+  padding: 5px 8px;
+  font-size: 10px;
+  font-weight: bold;
+  border-radius: 4px;
+  display: inline-block;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.more{
+  margin-top: 5rem;
+  padding-top: 2rem;
+}
+
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="anime-details">
+    
+    <% if (anime.title_english) { %>
+      <h2> <%= anime.title_english %></h2>
+      <% } %>
+      <h1>Japanese Title: <%= anime.title %> (<%= anime.title_japanese %>)</h1>
+
+    <img src="<%= anime.images.jpg.image_url %>" alt="<%= anime.title %> Poster" />
+
+    <p><strong>Type:</strong> <%= anime.type %></p>
+    <p><strong>Rating:</strong> <%= anime.rating %></p>
+    <p><strong>Score:</strong> <%= anime.score %>/10</p>
+    <p><strong>Status:</strong> <%= anime.status %></p>
+    <p><strong>Episodes:</strong> <%= anime.episodes %></p>
+    <p><strong>Duration:</strong> <%= anime.duration %></p>
+
+    <p><strong>Aired:</strong> <%= anime.aired.string %></p>
+    <p><strong>Season:</strong> <%= anime.season ? anime.season + " " + anime.year : 'N/A' %></p>
+
+    <% if (anime.airing) { %>
+      <div class="airing-label">Currently Releasing</div>
+    <% } %>
+    <br>
+
+    <% if (anime.trailer.embed_url) { %>
+      <br>
+      <h2>Trailer</h2>
+      <iframe src="<%= anime.trailer.embed_url %>" frameborder="0" allowfullscreen  style="height: 360px;"></iframe>
+    <% } %>
+
+    <h2>Description</h2>
+    <div><%- anime.synopsis %></div>
+
+
+
+    <% if (anime.relations.length) { %>
+      <br> <br> <br>
+      <h2>Related Works</h2>
+      <ul>
+        <% anime.relations.forEach(rel => { %>
+          <% rel.entry.forEach(item => { %>
+            <li><%= rel.relation %>: <%= item.name %></li>
+          <% }) %>
+        <% }) %>
+      </ul>
+    <% } %>
+
+    <a class="more" href="/anime/<%= anime.mal_id %>/videos">Watch Videos</a>
+    <a class="more" href="/anime/<%= anime.mal_id %>/recommendations">Related Animes</a>
+    <a class="more" href="/anime/<%= anime.mal_id %>/pictures">Pictures</a>
+  </div>
+
+  <script>
+    const FIRST_AD_DELAY =5*60 * 1000; // 5 minutes
+    const AD_INTERVAL = 30 * 60 * 1000;   // 30 minutes
+  
+    function showAd() {
+      console.log('Showing ad at', new Date().toLocaleTimeString());
+      show_9278507({ 
+        type: 'inApp', 
+        inAppSettings: { 
+          frequency: 2,
+          capping: 0.1,
+          interval: 30,
+          timeout: 5,
+          everyPage: false
+        }
+      });
+    }
+  
+    // First ad after 5 minutes
+    setTimeout(() => {
+      showAd();
+  
+      // Then repeat every 30 minutes
+      setInterval(showAd, AD_INTERVAL);
+    }, FIRST_AD_DELAY);
+  </script>
+  
+</body>
+</html>
+
+
+

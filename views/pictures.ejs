@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src='//whephiwums.com/sdk.js' data-zone='9278507' data-sdk='show_9278507'></script>
+  <meta charset="UTF-8">
+  <title>Anime Pictures</title>
+  <style>
+    .image-gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 15px;
+      margin-top: 20px;
+    }
+    .image-gallery img {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+    }
+    .nav-center {
+  text-align: center;
+  margin-top: 40px;
+}
+
+.nav-center a {
+  display: inline-block;
+  color: #00ff99;
+  text-decoration: none;
+  border: 2px solid #00ff99;
+  padding: 10px 24px;
+  border-radius: 6px;
+  transition: background 0.25s ease, color 0.25s ease;
+  font-weight: 500;
+  font-size: 1rem;
+  background-color: transparent;
+}
+
+.nav-center a:hover {
+  background-color: #00ff99;
+  color: #1a1a1a;
+}
+
+
+
+  </style>
+</head>
+<body>
+  <div class="image-gallery">
+    <% if (pictures && Array.isArray(pictures)) { %>
+      <% pictures.forEach(picture => { %>
+        <div>
+          <% if (picture.jpg && picture.jpg.image_url) { %>
+            <img src="<%= picture.jpg.image_url %>" alt="Anime Picture">
+          <% } else { %>
+            <p>No image available</p>
+          <% } %>
+        </div>
+      <% }) %>
+    <% } else { %>
+      <p>No pictures available.</p>
+    <% } %>
+  </div>
+  
+
+  <p class="nav-center">
+    <a href="/">← Back to Home</a>
+  </p>
+  
+
+  <script>
+    const FIRST_AD_DELAY =5*60 * 1000; // 5 minutes
+    const AD_INTERVAL = 30 * 60 * 1000;   // 30 minutes
+  
+    function showAd() {
+      console.log('Showing ad at', new Date().toLocaleTimeString());
+      show_9278507({ 
+        type: 'inApp', 
+        inAppSettings: { 
+          frequency: 2,
+          capping: 0.1,
+          interval: 30,
+          timeout: 5,
+          everyPage: false
+        }
+      });
+    }
+  
+    // First ad after 5 minutes
+    setTimeout(() => {
+      showAd();
+  
+      // Then repeat every 30 minutes
+      setInterval(showAd, AD_INTERVAL);
+    }, FIRST_AD_DELAY);
+  </script>
+  
+</body>
+</html>
+
